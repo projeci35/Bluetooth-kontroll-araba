@@ -1,0 +1,74 @@
+const int motorA1  = 7;  // L298N'in IN3 Girişi
+const int motorA2  = 6;  // L298N'in IN1 Girişi
+const int motorB1  = 5; // L298N'in IN2 Girişi
+const int motorB2  = 4;  // L298N'in IN4 Girişi
+int durum; 
+int Hiz=255;
+ 
+void setup() {
+    pinMode(motorA1, OUTPUT);
+    pinMode(motorA2, OUTPUT);
+    pinMode(motorB1, OUTPUT);
+    pinMode(motorB2, OUTPUT);   
+    Serial.begin(9600);
+}
+ 
+void loop() {
+    if(Serial.available() > 0){     
+      durum = Serial.read();   
+    }
+  
+  // Uygulamadan ayarlanabilen 3 hız seviyesi.(Değerler 0-255 arası)
+   if (durum == '1'){
+      Hiz=50;}
+    else if (durum == '2'){
+      Hiz=150;}
+    else if (durum == '3'){
+      Hiz=255;}
+         
+  /******************** İleri *************************/
+    if (durum == 'y') {
+      analogWrite(motorA1, Hiz); analogWrite(motorA2, 0);
+        analogWrite(motorB1, Hiz);      analogWrite(motorB2, 0); 
+    }
+  /****************** İleri Sağ *********************/
+    else if (durum == 'k') {
+      analogWrite(motorA1,Hiz ); analogWrite(motorA2, 0);  
+        analogWrite(motorB1, 100);    analogWrite(motorB2, 0); 
+    }
+  /****************** İleri Sol ********************/
+    else if (durum == 'm') {
+        analogWrite(motorA1, 100); analogWrite(motorA2, 0); 
+        analogWrite(motorB1, Hiz);      analogWrite(motorB2, 0); 
+    }
+  /****************** Geri ****************************/
+    else if (durum == 'a') {
+      analogWrite(motorA1, 0);   analogWrite(motorA2, Hiz); 
+        analogWrite(motorB1, 0);   analogWrite(motorB2, Hiz); 
+    }
+  /******************* Geri Sağ **********************/
+    else if (durum == 'f') {
+      analogWrite(motorA1, 0);   analogWrite(motorA2, 100); 
+        analogWrite(motorB1, 0); analogWrite(motorB2, Hiz); 
+    }
+  /******************* Geri Sol *********************/
+    else if (durum == 'z') {
+      analogWrite(motorA1, 0);   analogWrite(motorA2, Hiz); 
+        analogWrite(motorB1, 0);   analogWrite(motorB2, 100); 
+    }
+  /********************** Sağ *************************/
+    else if (durum == 's') {
+      analogWrite(motorA1, Hiz);   analogWrite(motorA2, 0); 
+        analogWrite(motorB1, 0); analogWrite(motorB2, 0); 
+    }
+  /*********************** Sol  *************************/
+    else if (durum == 'l') {
+      analogWrite(motorA1, 0);   analogWrite(motorA2, 0); 
+        analogWrite(motorB1, Hiz);   analogWrite(motorB2, 0);     
+    }
+  /********************* Dur ************************/
+    else if (durum == 'd'){
+        analogWrite(motorA1, 0);  analogWrite(motorA2, 0); 
+        analogWrite(motorB1, 0);  analogWrite(motorB2, 0);
+    }  
+}
